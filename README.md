@@ -8,11 +8,21 @@ Simple Fan Daemon for T2 Macs, rewritten from the [original Python version](http
 ## Installation
 1. Copy the `target/release/t2fanrd` executable to wherever your distro wants executables to be run by root.
 2. Setup the executable to be run automatically at startup, like via a [systemd service](https://github.com/t2linux/fedora/blob/2947fdc909a35f04eb936a4f9c0f33fe4e52d9c2/t2fanrd/t2fanrd.service).
+3. Move the folder `t2fanrd-config` to `/etc/t2fanrd`. you may need sudo.
+4. run `chmod +x /etc/t2fanrd/fan_util.sh` to ensure it can be executed by your user(s).
+5. add the following commands to your aliases file (bash). You can name your aliases whatever, but this just isolates the shell functions inside /etc/t2fanrd/fan_util.sh:
+```
+    # Fan Controls
+    source /etc/t2fanrd/fan_util.sh
+    alias fanspeed=use_fan_config
+    complete -F _use_fan_config_completions fanspeed
+```
+note that the functions do call sudo for the purpose of restarting the system service to run your conf file immediately.
 
 ## Configuration
 Initial configuration will be done automatically.
 
-For manual config, the config file can be found at `/etc/t2fand.conf`.
+For manual config, the config file can be found at `/etc/t2fand.conf`. Using installation steps 3 through 5 will allow you to dynamically move a conf file into this path and restart your service. Provided with this repo are min, mid, and max, however any *.conf files you add in the folder should be available to use.
 
 There's four options for each fan.
 |        Key        |                            Value                            |
